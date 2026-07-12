@@ -67,14 +67,15 @@ fun AppsScreen(vm: ParentViewModel) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text("📱", style = MaterialTheme.typography.displayLarge)
-                    Text("Belum ada aturan app", style = MaterialTheme.typography.titleMedium, color = PWhite)
-                    Text("Aturan akan muncul setelah app anak terhubung ke Firebase",
+                    Text("Belum ada aturan app",
+                        style = MaterialTheme.typography.titleMedium, color = PWhite)
+                    Text("Aturan muncul setelah app anak terhubung ke Firebase",
                         style = MaterialTheme.typography.bodySmall, color = PWhiteDim.copy(0.5f))
                 }
             }
         } else {
             LazyColumn(
-                contentPadding = PaddingValues(horizontal = 20.dp, bottom = 80.dp),
+                contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 0.dp, bottom = 80.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 items(filtered, key = { it.packageName }) { rule ->
@@ -90,7 +91,6 @@ fun AppsScreen(vm: ParentViewModel) {
         feedback?.let { FeedbackSnackbar(it) { vm.clearFeedback() } }
     }
 
-    // Limit dialog
     limitDialog?.let { rule ->
         var input by remember { mutableStateOf(rule.dailyLimitMinutes.toString()) }
         AlertDialog(
@@ -109,7 +109,8 @@ fun AppsScreen(vm: ParentViewModel) {
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = PCyan, unfocusedBorderColor = PGlassBorder,
                             focusedTextColor = PWhite, unfocusedTextColor = PWhite,
-                            cursorColor = PCyan, focusedLabelColor = PCyan, unfocusedLabelColor = PWhiteDim
+                            cursorColor = PCyan, focusedLabelColor = PCyan,
+                            unfocusedLabelColor = PWhiteDim
                         )
                     )
                 }
