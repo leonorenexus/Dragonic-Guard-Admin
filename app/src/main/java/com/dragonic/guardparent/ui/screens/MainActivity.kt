@@ -12,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
@@ -31,14 +32,16 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+data class NavItem(val route: String, val icon: ImageVector, val label: String)
+
 @Composable
 fun ParentApp(vm: ParentViewModel) {
     val navController = rememberNavController()
     val navItems = listOf(
-        Triple("monitor", Icons.Filled.Shield, "Monitor"),
-        Triple("apps", Icons.Filled.Apps, "Aplikasi"),
-        Triple("usage", Icons.Filled.BarChart, "Pemakaian"),
-        Triple("devices", Icons.Filled.DevicesOther, "Perangkat"),
+        NavItem("monitor", Icons.Filled.Shield, "Monitor"),
+        NavItem("apps", Icons.Filled.Apps, "Aplikasi"),
+        NavItem("usage", Icons.Filled.BarChart, "Pemakaian"),
+        NavItem("devices", Icons.Filled.DevicesOther, "Perangkat"),
     )
 
     Scaffold(
@@ -46,22 +49,32 @@ fun ParentApp(vm: ParentViewModel) {
         bottomBar = {
             NavigationBar(containerColor = PDeepBlue.copy(alpha = 0.95f), tonalElevation = 0.dp) {
                 val entry by navController.currentBackStackEntryAsState()
-                val current = entry?.destination
-                navItems.forEach { (route, icon, label) ->
-                    val sel = current?.hierarchy?.any { it.route == route } == true
+                val currentRoute = entry?.destination?.route
+                navItems.forEach { item ->
+                    val selected = currentRoute == item.route
                     NavigationBarItem(
-                        selected = sel,
+                        selected = selected,
                         onClick = {
-                            navController.navigate(route) {
-                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
                                 launchSingleTop = true
                                 restoreState = true
                             }
                         },
-                        icon = { Icon(icon, null, tint = if (sel) PCyan else PWhiteDim.copy(0.5f)) },
-                        label = { Text(label, style = MaterialTheme.typography.labelSmall,
-                            color = if (sel) PCyan else PWhiteDim.copy(0.5f)) },
-                        colors = NavigationBarItemDefaults.colors(indicatorColor = PCyan.copy(0.15f))
+                        icon = {
+                            Icon(item.icon, null,
+                                tint = if (selected) PCyan else PWhiteDim.copy(0.5f))
+                        },
+                        label = {
+                            Text(item.label,
+                                style = MaterialTheme.typography.labelSmall,
+                                color = if (selected) PCyan else PWhiteDim.copy(0.5f))
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = PCyan.copy(0.15f)
+                        )
                     )
                 }
             }
