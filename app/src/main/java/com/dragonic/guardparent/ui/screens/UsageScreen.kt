@@ -28,11 +28,8 @@ fun UsageScreen(vm: ParentViewModel) {
 
     Column(Modifier.fillMaxSize()) {
         Column(Modifier.padding(horizontal = 20.dp, vertical = 20.dp)) {
-            SectionHeader(title = "Pemakaian Hari Ini",
-                subtitle = child?.nickname ?: "HP Anak")
+            SectionHeader(title = "Pemakaian Hari Ini", subtitle = child?.nickname ?: "HP Anak")
             Spacer(Modifier.height(16.dp))
-
-            // Summary card
             GlassCard(Modifier.fillMaxWidth()) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
                     UsageStat("Total", "${total}m", PCyan)
@@ -48,14 +45,15 @@ fun UsageScreen(vm: ParentViewModel) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text("📊", fontSize = 48.sp)
-                    Text("Belum ada data", style = MaterialTheme.typography.titleMedium, color = PWhite)
+                    Text("Belum ada data",
+                        style = MaterialTheme.typography.titleMedium, color = PWhite)
                     Text("Data akan muncul saat HP anak aktif",
                         style = MaterialTheme.typography.bodySmall, color = PWhiteDim.copy(0.5f))
                 }
             }
         } else {
             LazyColumn(
-                contentPadding = PaddingValues(horizontal = 20.dp, bottom = 80.dp),
+                contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = 0.dp, bottom = 80.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 itemsIndexed(usage) { idx, record ->
@@ -76,22 +74,27 @@ fun UsageScreen(vm: ParentViewModel) {
                                         .background(color.copy(0.15f)),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Text("${idx + 1}", style = MaterialTheme.typography.labelSmall, color = color)
+                                    Text("${idx + 1}",
+                                        style = MaterialTheme.typography.labelSmall, color = color)
                                 }
                                 Column {
-                                    Text(record.appName, style = MaterialTheme.typography.bodyLarge, color = PWhite)
+                                    Text(record.appName,
+                                        style = MaterialTheme.typography.bodyLarge, color = PWhite)
                                     Text("${(pct * 100).toInt()}% dari total",
-                                        style = MaterialTheme.typography.bodySmall, color = PWhiteDim.copy(0.5f))
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = PWhiteDim.copy(0.5f))
                                 }
                             }
                             Text("${record.usageMinutes}m",
                                 style = MaterialTheme.typography.titleMedium, color = color)
                         }
                         Spacer(Modifier.height(8.dp))
-                        Box(Modifier.fillMaxWidth().height(4.dp).clip(RoundedCornerShape(2.dp))
-                            .background(PGlass)) {
-                            Box(Modifier.fillMaxWidth(pct).height(4.dp).clip(RoundedCornerShape(2.dp))
-                                .background(Brush.horizontalGradient(listOf(color, color.copy(0.4f)))))
+                        Box(Modifier.fillMaxWidth().height(4.dp)
+                            .clip(RoundedCornerShape(2.dp)).background(PGlass)) {
+                            Box(Modifier.fillMaxWidth(pct).height(4.dp)
+                                .clip(RoundedCornerShape(2.dp))
+                                .background(Brush.horizontalGradient(
+                                    listOf(color, color.copy(0.4f)))))
                         }
                     }
                 }
