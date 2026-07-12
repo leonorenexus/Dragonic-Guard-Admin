@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "218869172929",
+    "project_id": "dragonic-315b6",
+    "storage_bucket": "dragonic-315b6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218869172929:android:35a62c13bf2fb292bbe240",
+        "android_client_info": {
+          "package_name": "com.dragonic.guard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd0RxLLMCsxvTeuvVQwP5n57ZewsVXKw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218869172929:android:b65462288fd356d0bbe240",
+        "android_client_info": {
+          "package_name": "com.dragonic.guardadmin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd0RxLLMCsxvTeuvVQwP5n57ZewsVXKw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
