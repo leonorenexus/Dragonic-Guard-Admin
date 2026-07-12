@@ -37,15 +37,47 @@ private val DarkColors = darkColorScheme(
 )
 
 val ParentTypography = Typography(
-    displayLarge  = TextStyle(FontFamily.Default, FontWeight.Bold,   32.sp, letterSpacing = 2.sp),
-    titleLarge    = TextStyle(FontFamily.Default, FontWeight.SemiBold, 20.sp),
-    titleMedium   = TextStyle(FontFamily.Default, FontWeight.Medium, 16.sp),
-    bodyLarge     = TextStyle(FontFamily.Default, FontWeight.Normal, 15.sp),
-    bodySmall     = TextStyle(FontFamily.Default, FontWeight.Normal, 12.sp, color = PWhiteDim),
-    labelSmall    = TextStyle(FontFamily.Default, FontWeight.Medium, 10.sp, letterSpacing = 1.2.sp, color = PCyan),
+    displayLarge  = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Bold,
+        fontSize = 32.sp,
+        letterSpacing = 2.sp
+    ),
+    titleLarge    = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp
+    ),
+    titleMedium   = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp
+    ),
+    bodyLarge     = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 15.sp
+    ),
+    bodySmall     = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        color = PWhiteDim
+    ),
+    labelSmall    = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 10.sp,
+        letterSpacing = 1.2.sp,
+        color = PCyan
+    ),
 )
 
 @Composable
 fun DRAGONICParentTheme(content: @Composable () -> Unit) {
-    MaterialTheme(colorScheme = DarkColors, typography = ParentTypography, content = content)
+    MaterialTheme(
+        colorScheme = DarkColors,
+        typography = ParentTypography,
+        content = content
+    )
 }
