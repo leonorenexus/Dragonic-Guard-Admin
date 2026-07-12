@@ -1,4 +1,4 @@
-{
+{ 
   
   "project_info": {
     "project_number": "218869172929",
@@ -27,9 +27,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:218869172929:android:b65462288fd356d0bbe240",
+        "mobilesdk_app_id": "1:218869172929:android:b141affc71dcacbabbe240",
         "android_client_info": {
-          "package_name": "com.dragonic.guardadmin"
+          "package_name": "com.dragonic.guardparent"
         }
       },
       "oauth_client": [],
