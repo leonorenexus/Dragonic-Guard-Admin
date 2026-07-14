@@ -1,4 +1,3 @@
-import androidx.compose.ui.graphics.Color
 package com.dragonic.guardparent.ui.screens
 
 import androidx.compose.animation.*
@@ -7,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,7 +24,6 @@ import com.dragonic.guardparent.ui.components.*
 import com.dragonic.guardparent.ui.theme.*
 import com.dragonic.guardparent.viewmodel.ParentViewModel
 
-// Quick messages orang tua ke anak
 private val QUICK_MESSAGES = listOf(
     "🍽️ Makan dulu!",
     "😴 Tidur sekarang!",
@@ -41,7 +41,6 @@ fun ChatScreen(vm: ParentViewModel) {
     var input by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
 
-    // Auto scroll ke pesan terbaru
     LaunchedEffect(messages.size) {
         if (messages.isNotEmpty()) listState.animateScrollToItem(0)
     }
@@ -50,21 +49,13 @@ fun ChatScreen(vm: ParentViewModel) {
         GalaxyBackground(Modifier.fillMaxSize())
 
         Column(Modifier.fillMaxSize()) {
-            // Header
             Column(
                 Modifier
                     .fillMaxWidth()
-                    .background(
-                        Brush.verticalGradient(
-                            listOf(PBlack.copy(0.95f), PBlack.copy(0f))
-                        )
-                    )
+                    .background(Brush.verticalGradient(listOf(PBlack.copy(0.95f), PBlack.copy(0f))))
                     .padding(horizontal = 20.dp, vertical = 16.dp)
             ) {
-                SectionHeader(
-                    title = "Pesan ke Anak",
-                    subtitle = "Notifikasi langsung tampil di HP anak"
-                )
+                SectionHeader(title = "Pesan ke Anak", subtitle = "Notifikasi langsung tampil di HP anak")
             }
 
             if (deviceId == null) {
@@ -74,11 +65,8 @@ fun ChatScreen(vm: ParentViewModel) {
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text("💬", fontSize = 48.sp)
-                        Text(
-                            "Tambahkan perangkat anak dulu",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = PWhite
-                        )
+                        Text("Tambahkan perangkat anak dulu",
+                            style = MaterialTheme.typography.titleMedium, color = PWhite)
                     }
                 }
             } else {
@@ -99,18 +87,13 @@ fun ChatScreen(vm: ParentViewModel) {
                                 .clickable { vm.sendMessage(msg) }
                                 .padding(horizontal = 14.dp, vertical = 8.dp)
                         ) {
-                            Text(
-                                msg,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = PWhite
-                            )
+                            Text(msg, style = MaterialTheme.typography.bodySmall, color = PWhite)
                         }
                     }
                 }
 
                 Spacer(Modifier.height(8.dp))
 
-                // Messages list
                 if (messages.isEmpty()) {
                     Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
                         Column(
@@ -118,26 +101,17 @@ fun ChatScreen(vm: ParentViewModel) {
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             Text("📭", fontSize = 40.sp)
-                            Text(
-                                "Belum ada pesan terkirim",
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = PWhiteDim
-                            )
-                            Text(
-                                "Kirim pesan atau pilih template di atas",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = PWhiteDim.copy(0.5f)
-                            )
+                            Text("Belum ada pesan terkirim",
+                                style = MaterialTheme.typography.bodyLarge, color = PWhiteDim)
+                            Text("Kirim pesan atau pilih template di atas",
+                                style = MaterialTheme.typography.bodySmall, color = PWhiteDim.copy(0.5f))
                         }
                     }
                 } else {
                     LazyColumn(
                         state = listState,
                         modifier = Modifier.weight(1f),
-                        contentPadding = PaddingValues(
-                            start = 16.dp, end = 16.dp,
-                            top = 8.dp, bottom = 16.dp
-                        ),
+                        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
                         reverseLayout = true
                     ) {
@@ -151,11 +125,7 @@ fun ChatScreen(vm: ParentViewModel) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(
-                            Brush.verticalGradient(
-                                listOf(Color.Transparent, PBlack.copy(0.98f))
-                            )
-                        )
+                        .background(Brush.verticalGradient(listOf(Color.Transparent, PBlack.copy(0.98f))))
                         .padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -163,33 +133,26 @@ fun ChatScreen(vm: ParentViewModel) {
                     OutlinedTextField(
                         value = input,
                         onValueChange = { input = it },
-                        placeholder = {
-                            Text("Ketik pesan...", color = PWhiteDim.copy(0.4f))
-                        },
+                        placeholder = { Text("Ketik pesan...", color = PWhiteDim.copy(0.4f)) },
                         modifier = Modifier.weight(1f),
                         singleLine = true,
                         shape = RoundedCornerShape(24.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor   = PCyan,
-                            unfocusedBorderColor = PGlassBorder,
-                            focusedTextColor     = PWhite,
-                            unfocusedTextColor   = PWhite,
-                            cursorColor          = PCyan,
+                            focusedBorderColor      = PCyan,
+                            unfocusedBorderColor    = PGlassBorder,
+                            focusedTextColor        = PWhite,
+                            unfocusedTextColor      = PWhite,
+                            cursorColor             = PCyan,
                             focusedContainerColor   = PGlass,
                             unfocusedContainerColor = PGlass
                         )
                     )
-                    // Send button
                     Box(
                         modifier = Modifier
                             .size(48.dp)
-                            .clip(androidx.compose.foundation.shape.CircleShape)
-                            .background(
-                                Brush.radialGradient(
-                                    listOf(PCyan.copy(0.4f), PPurple.copy(0.3f))
-                                )
-                            )
-                            .border(1.dp, PCyan.copy(0.6f), androidx.compose.foundation.shape.CircleShape)
+                            .clip(CircleShape)
+                            .background(Brush.radialGradient(listOf(PCyan.copy(0.4f), PPurple.copy(0.3f))))
+                            .border(1.dp, PCyan.copy(0.6f), CircleShape)
                             .clickable {
                                 if (input.isNotBlank()) {
                                     vm.sendMessage(input)
@@ -206,8 +169,7 @@ fun ChatScreen(vm: ParentViewModel) {
 
         feedback?.let { msg ->
             Box(
-                Modifier
-                    .align(Alignment.BottomCenter)
+                Modifier.align(Alignment.BottomCenter)
                     .padding(bottom = 80.dp, start = 16.dp, end = 16.dp)
             ) {
                 FeedbackSnackbar(msg) { vm.clearFeedback() }
@@ -218,48 +180,25 @@ fun ChatScreen(vm: ParentViewModel) {
 
 @Composable
 fun ChatBubble(text: String, time: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End
-    ) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
         Column(horizontalAlignment = Alignment.End) {
             Box(
                 modifier = Modifier
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = 18.dp, topEnd = 18.dp,
-                            bottomStart = 18.dp, bottomEnd = 4.dp
-                        )
-                    )
-                    .background(
-                        Brush.horizontalGradient(
-                            listOf(PPurple.copy(0.6f), PCyan.copy(0.4f))
-                        )
-                    )
-                    .border(
-                        1.dp,
-                        PCyan.copy(0.3f),
-                        RoundedCornerShape(
-                            topStart = 18.dp, topEnd = 18.dp,
-                            bottomStart = 18.dp, bottomEnd = 4.dp
-                        )
-                    )
+                    .clip(RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp, bottomStart = 18.dp, bottomEnd = 4.dp))
+                    .background(Brush.horizontalGradient(listOf(PPurple.copy(0.6f), PCyan.copy(0.4f))))
+                    .border(1.dp, PCyan.copy(0.3f),
+                        RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp, bottomStart = 18.dp, bottomEnd = 4.dp))
                     .padding(horizontal = 16.dp, vertical = 10.dp)
                     .widthIn(max = 280.dp)
             ) {
-                Text(
-                    text,
+                Text(text,
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium),
-                    color = PWhite
-                )
+                    color = PWhite)
             }
             Spacer(Modifier.height(2.dp))
-            Text(
-                "Terkirim · $time",
+            Text("Terkirim · $time",
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
-                color = PWhiteDim.copy(0.4f)
-            )
+                color = PWhiteDim.copy(0.4f))
         }
     }
 }
-
