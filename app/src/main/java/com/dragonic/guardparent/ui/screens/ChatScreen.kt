@@ -1,3 +1,4 @@
+import androidx.compose.ui.graphics.Color
 package com.dragonic.guardparent.ui.screens
 
 import androidx.compose.animation.*
@@ -182,13 +183,13 @@ fun ChatScreen(vm: ParentViewModel) {
                     Box(
                         modifier = Modifier
                             .size(48.dp)
-                            .clip(CircleShape)
+                            .clip(androidx.compose.foundation.shape.CircleShape)
                             .background(
                                 Brush.radialGradient(
                                     listOf(PCyan.copy(0.4f), PPurple.copy(0.3f))
                                 )
                             )
-                            .border(1.dp, PCyan.copy(0.6f), CircleShape)
+                            .border(1.dp, PCyan.copy(0.6f), androidx.compose.foundation.shape.CircleShape)
                             .clickable {
                                 if (input.isNotBlank()) {
                                     vm.sendMessage(input)
@@ -262,4 +263,3 @@ fun ChatBubble(text: String, time: String) {
     }
 }
 
-private val CircleShape = androidx.compose.foundation.shape.CircleShape
