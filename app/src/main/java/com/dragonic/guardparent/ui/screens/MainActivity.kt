@@ -24,11 +24,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            DRAGONICParentTheme {
-                ParentApp(vm)
-            }
-        }
+        setContent { DRAGONICParentTheme { ParentApp(vm) } }
     }
 }
 
@@ -38,39 +34,47 @@ data class NavItem(val route: String, val icon: ImageVector, val label: String)
 fun ParentApp(vm: ParentViewModel) {
     val navController = rememberNavController()
     val navItems = listOf(
-        NavItem("monitor", Icons.Filled.Shield, "Monitor"),
-        NavItem("apps", Icons.Filled.Apps, "Aplikasi"),
-        NavItem("usage", Icons.Filled.BarChart, "Pemakaian"),
-        NavItem("devices", Icons.Filled.DevicesOther, "Perangkat"),
+        NavItem("monitor", Icons.Filled.Shield,        "Monitor"),
+        NavItem("apps",    Icons.Filled.Apps,          "Aplikasi"),
+        NavItem("chat",    Icons.Filled.ChatBubble,    "Chat"),
+        NavItem("usage",   Icons.Filled.BarChart,      "Pemakaian"),
+        NavItem("devices", Icons.Filled.DevicesOther,  "Perangkat"),
     )
 
     Scaffold(
         containerColor = PBlack,
         bottomBar = {
-            NavigationBar(containerColor = PDeepBlue.copy(alpha = 0.95f), tonalElevation = 0.dp) {
+            NavigationBar(
+                containerColor = PDeepBlue.copy(alpha = 0.97f),
+                tonalElevation = 0.dp
+            ) {
                 val entry by navController.currentBackStackEntryAsState()
                 val currentRoute = entry?.destination?.route
                 navItems.forEach { item ->
                     val selected = currentRoute == item.route
                     NavigationBarItem(
                         selected = selected,
-                        onClick = {
+                        onClick  = {
                             navController.navigate(item.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
                                 }
                                 launchSingleTop = true
-                                restoreState = true
+                                restoreState    = true
                             }
                         },
-                        icon = {
-                            Icon(item.icon, null,
-                                tint = if (selected) PCyan else PWhiteDim.copy(0.5f))
+                        icon  = {
+                            Icon(
+                                item.icon, null,
+                                tint = if (selected) PCyan else PWhiteDim.copy(0.5f)
+                            )
                         },
                         label = {
-                            Text(item.label,
+                            Text(
+                                item.label,
                                 style = MaterialTheme.typography.labelSmall,
-                                color = if (selected) PCyan else PWhiteDim.copy(0.5f))
+                                color = if (selected) PCyan else PWhiteDim.copy(0.5f)
+                            )
                         },
                         colors = NavigationBarItemDefaults.colors(
                             indicatorColor = PCyan.copy(0.15f)
@@ -87,10 +91,11 @@ fun ParentApp(vm: ParentViewModel) {
                 .padding(padding)
         ) {
             NavHost(navController, startDestination = "monitor") {
-                composable("monitor")  { MonitorScreen(vm) }
-                composable("apps")     { AppsScreen(vm) }
-                composable("usage")    { UsageScreen(vm) }
-                composable("devices")  { DevicesScreen(vm) }
+                composable("monitor") { MonitorScreen(vm) }
+                composable("apps")    { AppsScreen(vm) }
+                composable("chat")    { ChatScreen(vm) }
+                composable("usage")   { UsageScreen(vm) }
+                composable("devices") { DevicesScreen(vm) }
             }
         }
     }
