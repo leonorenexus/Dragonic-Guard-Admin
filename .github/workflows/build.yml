@@ -23,28 +23,34 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Android SDK manually
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "Android SDK already available at: $ANDROID_HOME"
+          ls $ANDROID_HOME/platforms/ || true
+          # Accept licenses
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" 2>/dev/null || true
 
       - name: Download gradle-wrapper.jar
         run: |
           mkdir -p gradle/wrapper
           curl -sL "https://github.com/gradle/gradle/raw/v8.4.0/gradle/wrapper/gradle-wrapper.jar" \
             -o gradle/wrapper/gradle-wrapper.jar
-          echo "gradle-wrapper.jar size: $(wc -c < gradle/wrapper/gradle-wrapper.jar) bytes"
+          echo "Size: $(wc -c < gradle/wrapper/gradle-wrapper.jar) bytes"
 
       - name: Grant execute permission to gradlew
         run: chmod +x gradlew
 
-      - name: Decode google-services.json from secret (if set)
+      - name: Decode google-services.json
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: |
           if [ -n "$GOOGLE_SERVICES_JSON" ]; then
             echo "$GOOGLE_SERVICES_JSON" | base64 -d > app/google-services.json
-            echo "✅ google-services.json decoded from secret"
+            echo "✅ google-services.json decoded"
           else
-            echo "⚠️ Using placeholder google-services.json (Firebase disabled)"
+            echo "⚠️ Using placeholder"
           fi
 
       - name: Build Debug APK
@@ -57,7 +63,7 @@ jobs:
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
 
-      - name: Print APK info
+      - name: Print build info
         run: |
-          echo "✅ Build berhasil!"
+          echo "✅ Build selesai!"
           ls -lh app/build/outputs/apk/debug/
